@@ -1,3 +1,11 @@
+import pickle
+import streamlit as st
+
+# Instead of joblib.load, use pickle
+with open('model.pkl', 'rb') as f:
+    model = pickle.load(f)
+
+
 """
 Telco Customer Churn Prediction App
 """
