@@ -1,12 +1,10 @@
 """
-Telco Customer Churn Prediction App
+Telco Customer Churn Prediction App - Simplified
 """
 import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
-import shap
-import matplotlib.pyplot as plt
 
 # Page config
 st.set_page_config(
@@ -18,14 +16,17 @@ st.set_page_config(
 # Load model
 @st.cache_resource
 def load_model():
-    return joblib.load('model.pkl')
+    try:
+        return joblib.load('model.pkl')
+    except:
+        # Fallback to pickle
+        import pickle
+        with open('model.pkl', 'rb') as f:
+            return pickle.load(f)
 
 # Title
 st.title("📊 Telco Customer Churn Prediction")
-st.markdown("""
-### Predict if a customer will churn with Explainable AI
-Enter customer details below to get a prediction and explanation.
-""")
+st.markdown("Predict if a customer is likely to churn")
 
 st.markdown("---")
 
@@ -93,7 +94,7 @@ if st.button("🔮 Predict Churn Risk", type="primary", use_container_width=True
             with col_r3:
                 st.metric("Recommendation", "Retention Offer", delta="Urgent")
             
-            st.error(f"⚠️ High churn risk! Probability: {probability:.1%}")
+            st.error(f"⚠️ HIGH CHURN RISK! Probability: {probability:.1%}")
             st.markdown("**Suggested Actions:**")
             st.markdown("""
             1. Offer loyalty discount (10-15% off)
@@ -108,7 +109,7 @@ if st.button("🔮 Predict Churn Risk", type="primary", use_container_width=True
             with col_r3:
                 st.metric("Recommendation", "Monitor", delta="Standard")
             
-            st.success(f"✅ Low churn risk! Probability: {probability:.1%}")
+            st.success(f"✅ LOW CHURN RISK! Probability: {probability:.1%}")
             st.markdown("**Suggested Actions:**")
             st.markdown("""
             1. Continue standard engagement
@@ -120,7 +121,8 @@ if st.button("🔮 Predict Churn Risk", type="primary", use_container_width=True
         st.progress(int(probability * 100))
         
     except Exception as e:
-        st.error(f"Error: {str(e)}")
+        st.error(f"❌ Error: {str(e)}")
+        st.info("Please check all fields are filled correctly.")
 
 st.markdown("---")
-st.caption("🔬 Powered by XGBoost | Explainable AI with SHAP")
+st.caption("🔬 Powered by XGBoost")
