@@ -1,6 +1,4 @@
-"""
-Telco Customer Churn Prediction App - MSc Level
-"""
+
 import streamlit as st
 import pandas as pd
 import joblib
@@ -21,7 +19,7 @@ def load_model():
     return joblib.load('model.pkl')
 
 # Title
-st.title("📊 Telco Customer Churn Prediction")
+st.title("📊 Telecom Customer Churn Prediction")
 st.markdown("""
 ### Predict if a customer will churn with Explainable AI
 Enter customer details below to get a prediction and explanation.
@@ -33,9 +31,9 @@ st.markdown("---")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("📋 Demographics")
+    st.subheader("📋 Data & Statistics")
     tenure = st.slider("Tenure (months)", 0, 72, 12)
-    monthly_charges = st.number_input("Monthly Charges ($)", 0.0, 150.0, 70.0)
+    monthly_charges = st.number_input("Monthly Charges", 0.0, 150.0, 70.0)
     senior_citizen = st.selectbox("Senior Citizen", ["No", "Yes"])
     partner = st.selectbox("Has Partner", ["No", "Yes"])
     dependents = st.selectbox("Has Dependents", ["No", "Yes"])
@@ -49,7 +47,7 @@ with col2:
     online_security = st.selectbox("Online Security", ["No", "Yes", "No internet service"])
 
 # Predict button
-if st.button("🔮 Predict Churn Risk", type="primary", use_container_width=True):
+if st.button("🔮 Predict Churn Risk", type="primary", use_container_width=False):
     try:
         # Create input
         input_data = pd.DataFrame({
@@ -123,4 +121,5 @@ if st.button("🔮 Predict Churn Risk", type="primary", use_container_width=True
         st.error(f"Error: {str(e)}")
 
 st.markdown("---")
-st.caption("🔬 Powered by XGBoost | Explainable AI with SHAP")
+st.caption("Powered by XGBoost | Explainable AI with SHAP")
+st.caption("S25021281 - Pubudu K Gamage - COM763")
